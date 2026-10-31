@@ -1,7 +1,7 @@
-"""Second probe: CMF tab names and material events for Arauco; GDELT with a polite pause."""
+"""Third probe: the CMF material-events form for Arauco, and Google News RSS as news source."""
 
 import re
-import time
+import xml.etree.ElementTree as ET
 
 import requests
 
@@ -11,72 +11,64 @@ UA = (
 )
 S = requests.Session()
 S.headers["User-Agent"] = UA
-CMF = "https://www.cmfchile.cl/institucional/mercados/entidad.php"
-RUT = "93458000"
+URL = (
+    "https://www.cmfchile.cl/institucional/mercados/entidad.php?mercado=V&rut=93458000&grupo="
+    "&tipoentidad=RVEMI&row=&vig=VI&control=svs&pestania=25"
+)
 
 
 def note(title, msg, level="notice"):
     print(f"::{level} title={title}::{msg[:950]}", flush=True)
 
 
-def page(tab, method="get", **data):
-    url = (
-        f"{CMF}?mercado=V&rut={RUT}&grupo=&tipoentidad=RVEMI&row=&vig=VI&control=svs&pestania={tab}"
-    )
-    r = S.request(method, url, timeout=90, data=data or None)
-    r.encoding = r.apparent_encoding
-    return r.text
-
-
 def clean(html):
     return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", html)).strip()
 
 
-# 1. the menu: tab number -> label
-html = page(1)
-tabs = {}
-for m in re.finditer(r"pestania=(\d+)[^>]*>(.*?)</a>", html, re.S):
-    tabs.setdefault(int(m.group(1)), clean(m.group(2)))
-note("CMF tabs", " | ".join(f"{k}: {v}" for k, v in sorted(tabs.items())))
+def get_html(method="get", data=None):
+    r = S.request(method, URL, data=data, timeout=90, headers={"Referer": URL})
+    r.encoding = r.apparent_encoding
+    return r.text
 
-# 2. the material-events tab: forms, date fields and the first rows
-for tab, label in sorted(tabs.items()):
-    if not re.search(r"hecho|esencial|relevante", label, re.I):
-        continue
-    h = page(tab)
-    forms = re.findall(r'<input[^>]+name="([^"]+)"[^>]*?(?:value="([^"]*)")?', h)
-    note(f"CMF tab {tab} form", f"{label}: inputs {forms[:15]}")
-    rows = re.findall(r"<tr[^>]*>(.*?)</tr>", h, re.S)
-    sample = [clean(r)[:160] for r in rows if re.search(r"\d{2}/\d{2}/\d{4}", r)][:6]
-    note(f"CMF tab {tab} rows", f"{len(rows)} rows; " + " || ".join(sample))
-    links = re.findall(r'href="([^"]+)"', h)
-    docs = [x for x in links if re.search(r"pdf|documento|hecho", x, re.I)][:5]
-    note(f"CMF tab {tab} links", " | ".join(docs))
 
-# 3. GDELT, waiting between attempts as the service asks
-for attempt in range(4):
-    time.sleep(8 * (attempt + 1))
+h = get_html()
+# the content area: everything after the tab menu
+body = h[h.find("Hechos") :]
+selects = {
+    m.group(1): re.findall(r'<option[^>]*value="([^"]*)"', m.group(2))[:8]
+    for m in re.finditer(r'<select[^>]+name="([^"]+)"(.*?)</select>', body, re.S)
+}
+forms = re.findall(r"<form[^>]*>", body)
+inputs = re.findall(r'<input[^>]+name="([^"]+)"', body)
+note("CMF form", f"forms {forms[:3]} | selects {selects} | inputs {inputs[:25]}")
+i = body.find("<table")
+note("CMF content", clean(body[: i if i > 0 else 1500])[:900])
+note("CMF table", clean(body[i : i + 3000])[:900] if i > 0 else "no table")
+
+for data in (
+    {"dd": "01", "mm": "01", "aa": "2024", "dd2": "31", "mm2": "12", "aa2": "2025"},
+    {"txt_inicio": "01/01/2024", "txt_termino": "31/12/2025"},
+    {"aa": "2025", "mm": "12"},
+):
+    t = get_html("post", {"pestania": "25", **data})
+    dates = re.findall(r"\d{2}/\d{2}/\d{4}", t)
+    rows = [clean(r)[:170] for r in re.findall(r"<tr[^>]*>(.*?)</tr>", t, re.S)]
+    rows = [r for r in rows if re.search(r"\d{2}/\d{2}/\d{4}", r)]
+    note(f"CMF post {list(data)[:2]}", f"{len(dates)} dates; " + " || ".join(rows[:5]))
+
+for q in ("Arauco celulosa", "Arauco forestal", "Celulosa Arauco"):
     r = S.get(
-        "https://api.gdeltproject.org/api/v2/doc/doc",
-        params={
-            "query": "Arauco (celulosa OR forestal OR pulp)",
-            "mode": "artlist",
-            "format": "json",
-            "maxrecords": 250,
-            "timespan": "3m",
-        },
-        timeout=90,
+        "https://news.google.com/rss/search",
+        params={"q": q, "hl": "es-419", "gl": "CL", "ceid": "CL:es-419"},
+        timeout=60,
     )
-    if r.status_code == 200:
-        try:
-            arts = r.json().get("articles", [])
-        except ValueError:
-            note("GDELT", f"not JSON: {r.text[:300]}", "warning")
-            break
-        langs = {}
-        for a in arts:
-            langs[a.get("language")] = langs.get(a.get("language"), 0) + 1
-        s = "; ".join(f"{a['seendate'][:8]} {a['domain']}: {a['title'][:70]}" for a in arts[:6])
-        note("GDELT", f"{len(arts)} articles, languages {langs}. {s}")
-        break
-    note("GDELT", f"attempt {attempt + 1}: HTTP {r.status_code}", "warning")
+    try:
+        items = ET.fromstring(r.content).findall(".//item")
+    except ET.ParseError:
+        note("Google News", f"{q}: HTTP {r.status_code}, not XML", "warning")
+        continue
+    s = "; ".join(
+        f"{(i.findtext('pubDate') or '')[5:16]} {i.findtext('source')}: {i.findtext('title')[:70]}"
+        for i in items[:5]
+    )
+    note(f"Google News {q}", f"HTTP {r.status_code}, {len(items)} items. {s}")
