@@ -19,6 +19,14 @@ _Filled in after the first run._
 ## Latest reading
 
 <!-- latest:start -->
+**Latest reading: 2026-10-31.** Chile produced 5.2 million tonnes of chemical pulp in 2024 (3.4% of world output); in the last month, 12 headlines on Arauco, led by group, ownership and investment.
+
+- Pulp production in 2024: 5.2 million tonnes, +9% on 2023 (a record).
+- Export unit value, a proxy for the price received: US$616 a tonne in 2024, +6% on 2023.
+- Share of production exported in 2024: 91%.
+- 160 new headlines; by theme: group, ownership and investment 46, territory and environment 22, pulp market and results 14, state and regulation 6, sustainability and legitimacy 4.
+
+*Full monthly entries in the [case log](docs/log.md).*
 <!-- latest:end -->
 
 ## The questions
