@@ -1,0 +1,23 @@
+# What the monthly update collects. Headlines are kept with their link and source only (no
+# article text). Each headline is tagged with the case's themes by the keyword rules below
+# (accents and case are ignored); a headline can carry several themes or none.
+news:
+  queries: ["Celulosa Arauco", "Arauco forestal", "Arauco celulosa", "Arauco pulp"]
+  # a headline must name the company, not only the province or the town
+  require: "arauco"
+  exclude: "provincia de arauco|comuna de arauco|golfo de arauco|colo.colo|club arauco"
+  themes:
+    territory: "incendi|fire|mapuche|comunidad|agua|humedal|contamin|territor|plantacion|monocultivo|conflict|tala"
+    group: "copec|angelini|antarchile|adquisi|compra|venta|fusion|accionist|directorio|inversion|invest|sucuriu|proyecto"
+    legitimacy: "sostenib|sustentab|certific|fsc|bono verde|bono sostenible|carbon|esg|neutral|biodiversidad|reporte"
+    market: "precio|price|demanda|demand|china|resultado|ebitda|utilidad|perdida|venta de celulosa|mercado|export"
+    state: "ley |gobierno|ministr|regulac|impuesto|subsidi|decreto|permiso|evaluacion ambiental|sma|conaf"
+
+faostat:
+  url: "https://bulks-faostat.fao.org/production/Forestry_E_All_Data_(Normalized).zip"
+  country: Chile
+  item: Chemical wood pulp
+  peers: [Brazil, Finland, Sweden, Canada, United States of America, Indonesia, Uruguay]
+
+openalex:
+  query: 'Arauco AND (forest OR forestry OR plantation OR pulp OR "Celulosa Arauco")'

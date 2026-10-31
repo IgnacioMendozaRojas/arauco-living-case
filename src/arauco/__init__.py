@@ -1,0 +1,1 @@
+"""Arauco living case."""

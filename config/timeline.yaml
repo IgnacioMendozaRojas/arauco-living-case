@@ -1,7 +1,7 @@
 # Base timeline of the case, summarised from my essay "Arauco S.A." (Universitat de Barcelona,
-# 2025). 'phase' follows the essay's periodisation; 'theme' links each event to the essay's
-# research questions (state, group, territory, legitimacy). New events found by the monthly
-# update are added in data/events.csv, not here.
+# 2025). 'phases' follow the essay's periodisation; 'theme' links each event to the essay's
+# research questions (state, group, territory, legitimacy); 'label' marks the event on the
+# long-run chart. What happens after the essay is recorded by the monthly update in docs/log.md.
 phases:
   - {name: State enterprise, start: 1960, end: 1979}
   - {name: Privatised firm, start: 1979, end: 1990}
@@ -18,11 +18,13 @@ events:
     theme: state
     event: CORFO founds Celulosa Constitución.
   - year: 1974
+    label: DL 701 subsidies
     theme: state
     event: >-
       Decree Law 701 subsidises up to 75% of the cost of planting pine and eucalyptus; industrial
       plantations grow from under 300 thousand hectares in the 1970s to over 2.5 million by 2000.
   - year: 1979
+    label: Privatisation to Copec
     theme: group
     event: >-
       In the wave of privatisations, Empresas Copec (Angelini group) acquires Celulosa Arauco y
@@ -38,6 +40,7 @@ events:
       International expansion begins: assets in Argentina, later Brazil, Uruguay and the United
       States.
   - year: 2004
+    label: Valdivia mill
     theme: territory
     event: >-
       The Valdivia mill starts up; the Río Cruces wetland crisis that follows becomes a landmark
@@ -46,9 +49,11 @@ events:
     theme: state
     event: The planting subsidies of Decree Law 701 expire.
   - year: 2017
+    label: 2017 fires
     theme: territory
     event: The largest forest fires on record burn central-southern Chile.
   - year: 2022
+    label: MAPA starts
     theme: legitimacy
     event: >-
       MAPA, the modernisation and expansion of the Arauco mill, starts operating: the case for

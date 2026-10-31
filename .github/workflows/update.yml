@@ -1,0 +1,47 @@
+name: Monthly update
+
+# Collects the headlines of the month (Google News), the FAOSTAT pulp statistics and research
+# on the case (OpenAlex), then rebuilds the figures, the case log, the timeline page,
+# latest.json and the README block. Runs on the 5th of every month (06:23 UTC).
+on:
+  schedule:
+    - cron: "23 6 5 * *"
+  push:
+    paths:
+      - "config/**"
+      - ".github/workflows/update.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: pip install --no-cache-dir .
+      - name: Collect the sources
+        run: arauco fetch
+      - name: Rebuild figures, log and the latest reading
+        run: arauco report
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data docs latest.json README.md
+          git diff --cached --quiet && exit 0
+          git commit -qm "Monthly update: headlines, pulp statistics and case log"
+          for i in 1 2 3 4 5; do
+            git pull -q --rebase origin main && git push -q origin HEAD:main && exit 0
+            sleep $((i * 10))
+          done
+          exit 1

@@ -1,0 +1,46 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "arauco-living-case"
+version = "0.1.0"
+description = "A living business-history case: Arauco and the Chilean forestry model, updated monthly from public data"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+authors = [{ name = "Ignacio Mendoza Rojas" }]
+dependencies = [
+    "pandas>=2.1",
+    "requests>=2.31",
+    "pyyaml>=6",
+    "matplotlib>=3.8",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.5"]
+
+[project.scripts]
+arauco = "arauco.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/arauco"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.ruff.format]
+# shared verbatim with the other repositories
+exclude = ["src/arauco/figstyle.py"]
+
+[tool.ruff.lint.per-file-ignores]
+# shared verbatim with the other repositories, which use 120 columns
+"src/arauco/figstyle.py" = ["E501"]
