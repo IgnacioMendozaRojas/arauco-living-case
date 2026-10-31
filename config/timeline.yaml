@@ -1,0 +1,73 @@
+# Base timeline of the case, summarised from my essay "Arauco S.A." (Universitat de Barcelona,
+# 2025). 'phase' follows the essay's periodisation; 'theme' links each event to the essay's
+# research questions (state, group, territory, legitimacy). New events found by the monthly
+# update are added in data/events.csv, not here.
+phases:
+  - {name: State enterprise, start: 1960, end: 1979}
+  - {name: Privatised firm, start: 1979, end: 1990}
+  - {name: Global integrated firm, start: 1990, end: null}
+
+events:
+  - year: 1939
+    theme: state
+    event: CORFO, the state development agency, is created to lead industrialisation.
+  - year: 1967
+    theme: state
+    event: CORFO founds Celulosa Arauco, a pulp mill in the Biobío region.
+  - year: 1969
+    theme: state
+    event: CORFO founds Celulosa Constitución.
+  - year: 1974
+    theme: state
+    event: >-
+      Decree Law 701 subsidises up to 75% of the cost of planting pine and eucalyptus; industrial
+      plantations grow from under 300 thousand hectares in the 1970s to over 2.5 million by 2000.
+  - year: 1979
+    theme: group
+    event: >-
+      In the wave of privatisations, Empresas Copec (Angelini group) acquires Celulosa Arauco y
+      Constitución; the brand Arauco is born.
+  - year: 1990
+    theme: group
+    event: >-
+      Return to democracy; the export model and the large business groups consolidate, and pulp
+      becomes one of Chile's main industrial exports.
+  - year: 1996
+    theme: group
+    event: >-
+      International expansion begins: assets in Argentina, later Brazil, Uruguay and the United
+      States.
+  - year: 2004
+    theme: territory
+    event: >-
+      The Valdivia mill starts up; the Río Cruces wetland crisis that follows becomes a landmark
+      environmental conflict.
+  - year: 2012
+    theme: state
+    event: The planting subsidies of Decree Law 701 expire.
+  - year: 2017
+    theme: territory
+    event: The largest forest fires on record burn central-southern Chile.
+  - year: 2022
+    theme: legitimacy
+    event: >-
+      MAPA, the modernisation and expansion of the Arauco mill, starts operating: the case for
+      technology as adaptation of the extractive model.
+  - year: 2023
+    theme: territory
+    event: New large forest fires in Biobío and Ñuble.
+  - year: 2024
+    theme: legitimacy
+    event: >-
+      Sustainability-linked financing: a sustainable financing framework and sustainability bond
+      issuance.
+
+questions:
+  - What role does the Angelini group play in Arauco's strategy, expansion and legitimacy?
+  - Do Arauco's technological and industrial investments transform the production model or
+    adapt it to survive?
+  - How has economic concentration sustained the continuity of Chile's forestry model?
+hypothesis: >-
+  Sustainability, certification and innovation strategies work mainly as mechanisms of
+  institutional legitimacy that sustain the extractive-export model under growing territorial,
+  environmental and regulatory pressure.

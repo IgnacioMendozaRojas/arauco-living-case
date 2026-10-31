@@ -1,8 +1,7 @@
-"""One-off probe of the public sources for the Arauco case. Prints findings as annotations."""
+"""Second probe: CMF tab names and material events for Arauco; GDELT with a polite pause."""
 
-import io
 import re
-import zipfile
+import time
 
 import requests
 
@@ -13,111 +12,71 @@ UA = (
 S = requests.Session()
 S.headers["User-Agent"] = UA
 CMF = "https://www.cmfchile.cl/institucional/mercados/entidad.php"
+RUT = "93458000"
 
 
 def note(title, msg, level="notice"):
-    print(f"::{level} title={title}::{msg[:900]}", flush=True)
+    print(f"::{level} title={title}::{msg[:950]}", flush=True)
 
 
-def get(url, **kw):
-    try:
-        r = S.get(url, timeout=90, **kw)
-        return r
-    except requests.RequestException as e:
-        note("error", f"{url[:200]} -> {e}", "warning")
-        return None
+def page(tab, method="get", **data):
+    url = (
+        f"{CMF}?mercado=V&rut={RUT}&grupo=&tipoentidad=RVEMI&row=&vig=VI&control=svs&pestania={tab}"
+    )
+    r = S.request(method, url, timeout=90, data=data or None)
+    r.encoding = r.apparent_encoding
+    return r.text
 
 
-def text(html):
-    return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", html))
+def clean(html):
+    return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", html)).strip()
 
 
-# 1. CMF: which company-page tabs mention material events (hechos esenciales) for Arauco
-for rut, name in (("93458000", "Celulosa Arauco"), ("90690000", "Empresas Copec")):
-    hits = []
-    for tab in range(1, 61):
-        url = (
-            f"{CMF}?mercado=V&rut={rut}&grupo=&tipoentidad=RVEMI&row=&vig=VI&control=svs"
-            f"&pestania={tab}"
-        )
-        r = get(url)
-        if r is None or r.status_code != 200:
-            continue
-        r.encoding = r.apparent_encoding
-        t = text(r.text)
-        if re.search(r"hecho[s]? (esencial|relevante)", t, re.IGNORECASE):
-            m = re.search(r"(\d{2}/\d{2}/\d{4}).{0,200}", t)
-            hits.append(f"tab {tab}: {len(r.text)} bytes; {m.group(0)[:160] if m else ''}")
-    note(f"CMF {name}", " || ".join(hits) or "no tab mentions hechos esenciales")
+# 1. the menu: tab number -> label
+html = page(1)
+tabs = {}
+for m in re.finditer(r"pestania=(\d+)[^>]*>(.*?)</a>", html, re.S):
+    tabs.setdefault(int(m.group(1)), clean(m.group(2)))
+note("CMF tabs", " | ".join(f"{k}: {v}" for k, v in sorted(tabs.items())))
 
-# 2. GDELT news (last month)
-r = get(
-    "https://api.gdeltproject.org/api/v2/doc/doc",
-    params={
-        "query": '"Arauco" (celulosa OR forestal OR pulp)',
-        "mode": "artlist",
-        "format": "json",
-        "maxrecords": 250,
-        "timespan": "3m",
-    },
-)
-if r is not None:
-    try:
-        arts = r.json().get("articles", [])
-        sample = "; ".join(
-            f"{a['seendate'][:8]} {a['domain']}: {a['title'][:80]}" for a in arts[:5]
-        )
-        note("GDELT", f"HTTP {r.status_code}, {len(arts)} articles in 3 months. {sample}")
-    except ValueError:
-        note("GDELT", f"HTTP {r.status_code}: {r.text[:300]}", "warning")
-
-# 3. FAOSTAT forestry bulk file: Chile wood pulp production and exports
-for url in (
-    "https://bulks-faostat.fao.org/production/Forestry_E_All_Data_(Normalized).zip",
-    "https://fenixservices.fao.org/faostat/static/bulkdownloads/Forestry_E_All_Data_(Normalized).zip",
-):
-    r = get(url)
-    if r is None or r.status_code != 200:
-        note("FAOSTAT", f"{url}: HTTP {getattr(r, 'status_code', None)}", "warning")
+# 2. the material-events tab: forms, date fields and the first rows
+for tab, label in sorted(tabs.items()):
+    if not re.search(r"hecho|esencial|relevante", label, re.I):
         continue
-    z = zipfile.ZipFile(io.BytesIO(r.content))
-    csv = next(n for n in z.namelist() if n.endswith(".csv") and "Normalized" in n)
-    import pandas as pd
+    h = page(tab)
+    forms = re.findall(r'<input[^>]+name="([^"]+)"[^>]*?(?:value="([^"]*)")?', h)
+    note(f"CMF tab {tab} form", f"{label}: inputs {forms[:15]}")
+    rows = re.findall(r"<tr[^>]*>(.*?)</tr>", h, re.S)
+    sample = [clean(r)[:160] for r in rows if re.search(r"\d{2}/\d{2}/\d{4}", r)][:6]
+    note(f"CMF tab {tab} rows", f"{len(rows)} rows; " + " || ".join(sample))
+    links = re.findall(r'href="([^"]+)"', h)
+    docs = [x for x in links if re.search(r"pdf|documento|hecho", x, re.I)][:5]
+    note(f"CMF tab {tab} links", " | ".join(docs))
 
-    df = pd.read_csv(z.open(csv), encoding="latin-1", low_memory=False)
-    cl = df[df["Area"] == "Chile"]
-    pulp = cl[cl["Item"].str.contains("pulp", case=False)]
-    items = sorted(pulp["Item"].unique())[:8]
-    last = int(cl["Year"].max())
-    rows = pulp[(pulp["Year"] == last)][["Item", "Element", "Unit", "Value"]].head(6)
-    note("FAOSTAT", f"{len(r.content) / 1e6:.0f} MB; Chile last year {last}; pulp items {items}")
-    note("FAOSTAT rows", rows.to_string(index=False).replace("\n", " | "))
-    break
-
-# 4. FRED: US producer price index for wood pulp (no key)
-r = get("https://fred.stlouisfed.org/graph/fredgraph.csv", params={"id": "WPU0911"})
-if r is not None:
-    lines = r.text.strip().splitlines()
-    note(
-        "FRED WPU0911",
-        f"HTTP {r.status_code}, {len(lines)} lines, first {lines[1:2]}, last {lines[-1:]}",
+# 3. GDELT, waiting between attempts as the service asks
+for attempt in range(4):
+    time.sleep(8 * (attempt + 1))
+    r = S.get(
+        "https://api.gdeltproject.org/api/v2/doc/doc",
+        params={
+            "query": "Arauco (celulosa OR forestal OR pulp)",
+            "mode": "artlist",
+            "format": "json",
+            "maxrecords": 250,
+            "timespan": "3m",
+        },
+        timeout=90,
     )
-
-# 5. OpenAlex: research on Arauco / Chilean forestry
-r = get(
-    "https://api.openalex.org/works",
-    params={
-        "filter": "title_and_abstract.search:Arauco AND (forestry OR plantation OR pulp)",
-        "per-page": 5,
-        "select": "display_name,publication_year,cited_by_count",
-    },
-)
-if r is not None:
-    j = r.json()
-    note(
-        "OpenAlex",
-        f"{j.get('meta', {}).get('count')} works; "
-        + "; ".join(
-            f"{w['publication_year']} {w['display_name'][:70]}" for w in j.get("results", [])
-        ),
-    )
+    if r.status_code == 200:
+        try:
+            arts = r.json().get("articles", [])
+        except ValueError:
+            note("GDELT", f"not JSON: {r.text[:300]}", "warning")
+            break
+        langs = {}
+        for a in arts:
+            langs[a.get("language")] = langs.get(a.get("language"), 0) + 1
+        s = "; ".join(f"{a['seendate'][:8]} {a['domain']}: {a['title'][:70]}" for a in arts[:6])
+        note("GDELT", f"{len(arts)} articles, languages {langs}. {s}")
+        break
+    note("GDELT", f"attempt {attempt + 1}: HTTP {r.status_code}", "warning")
