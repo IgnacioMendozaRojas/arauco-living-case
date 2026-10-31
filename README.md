@@ -9,7 +9,11 @@
 
 ## Results
 
-_Filled in after the first run._
+*As of the first run, October 2026; the block below and the [case log](docs/log.md) update every month.*
+
+- **Most of the growth came after privatisation and the opening of the 1990s, not before.** Chile produced 0.57 million tonnes of chemical pulp in 1979, the year of privatisation, and 0.73 in 1990. Output then tripled by 2000 (2.2 million) and reached a record 5.2 million tonnes in 2024, 91% of it exported.
+- **A record output, but a smaller share of the world.** Chile's share of world chemical pulp production peaked at 3.8% in 2009 and was 3.4% in 2024: other producers grew faster, the competition with Brazil that the essay describes.
+- **In the news, the group's capital allocation dominates.** Of 160 headlines collected in the first run, the largest theme is the group, ownership and investment (46): the Sucuriú pulp mill in Brazil, asset sales in Argentina, a hybrid bond and new projects with Copec. Territory and environment follows (22); sustainability is the smallest theme (4).
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/arc-dark.png">
