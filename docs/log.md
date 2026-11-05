@@ -2,6 +2,20 @@
 
 Written by the monthly update, newest first. Every sentence is computed from the data.
 
+## 2026-11-05
+
+- Pulp production in 2024: 5.2 million tonnes, +9% on 2023 (a record).
+- Export unit value, a proxy for the price received: US$616 a tonne in 2024, +6% on 2023.
+- Share of production exported in 2024: 91%.
+
+**News.** 46 new headlines; by theme: group, ownership and investment 11, state and regulation 7, territory and environment 6, pulp market and results 2.
+
+- [Arauco revierte sus pérdidas ante mejora en precios de la celulosa](https://news.google.com/rss/articles/CBMiyAFBVV95cUxNbmtfZTRYUF9Ob0c4R3FWMllmUlZjLV9LdUJkXzZvVi1wSDMxVm5hRnBlV09xRU1oWFVSRHR4aVlfeG9pSzNER0l6bFhWbWRRWS1vNS02QlkzLTZnaUREUUJscXZpTjRGREdnWDY1OHozTFkzWkpRZnp0enh3T0hLTi03QUVHd1pkVVpZOTRRZ29kV2NtM3ZKMTNaQzNaTXdpWjJ6eWUzWUpJcDlIcHF0UHNUUHo2cDRQVG1mdm0zc0VlSkwtYlVHNQ?oc=5) (La Tercera, 2026-11-04; pulp market and results)
+- [SMA inicia proceso de sanción contra Celulosa Arauco por incumplimientos en su Planta Valdivia](https://news.google.com/rss/articles/CBMiywFBVV95cUxOYjlpZklPVEx6UUhKNHo5N2ZnbnpHT0UyVG9CcC1GS29RaFBjcDQxM2MtZ3hneGlwMzVxYlUxdG9nclpQZWtBb0tEYm05ZTVLN3lHcnJ3VHBQZTF5YmEtdUxSOExyOGszc3NHMVJhVGJQVGFSa1NiNTg3bHRldkRURXdJSnp6cHpoMW5vcldaNndCZFJ5U1N2SVRXQkFnNHU3Z3dTNXRJV0FtZ09nQ1lPXzI0enNDaFVrZ25pcWVpSVVyeE5OUjBsaUVvQQ?oc=5) (Superintendencia Del Medio Ambiente, 2016-01-11; state and regulation)
+- [Incendio afectó a huincha transportadora de la Celulosa Arauco en el Biobío](https://news.google.com/rss/articles/CBMiuwFBVV95cUxPOWh1cDVJR3VZdnJoLTVpRHhzWWxSR3JzdWFEd01udGQ3aGxxM3dwMkliMFNDYVl2ZXA1S3I0aGNxZFJFTVJ6VHpDcjJNcWxmZGhQZFFfQjA3dmxneDJQZnBhNk1iejhjVG9VWnNjc3NBbmpuX2VsODk0UEFJVWZUUENEVFVfUDlHaW1Cc0F2MEs1TVQ4V0VHd3N2Y0EwQ3BTMU1mRlpyQVh6dmppSmU0VG82N0I5ekdCbUpr0gHcAUFVX3lxTE4yNVNPbUxOYXlaOGtYRjR0V2U3UTFPUkZHZjlwbmRQa1MwbGpCcWN0MUxoaXdkeGk5d2l2TndzT0tVbFVPME5oelNFOEZteXEtV0p0TGFnaVNZZUJUcWZQSFUxMW4tTzM1V2gzLUlrWk1TOElvUTlielpQazVHTXFkRTV6Y1BSLU9QekRTRjNubmljVElFWHpSU0FvZnhlMDdEZDNJTW1wVUZHbnNwaVR4U3BhdG5xN19fNUQyZ2RmU0c0ZmZ6dDNXdDVVQ2dEeFowTDIydlpOQkdhTkg?oc=5) (La Tercera, 2025-04-26; territory and environment)
+- [Planta de Celulosa Arauco paraliza sus funciones tras identificar caso de coronavirus](https://news.google.com/rss/articles/CBMiwgFBVV95cUxPQ28wMXVkVHcwTmktQ0hPb0d6Qk52YXlUM3RzbkJaNVJPeXRhc0RLTFE1QVdSZ05fUlN0Njg2VnNwdGRHZW44VmE0WVlKT3FZaUZmU2Z4M2ZwaGFxWG9JaFlaaWhvUE44TGRNeF9HM2dFa1FwQzQ2ekkwTjlPdFdHZmR1QmkyTGZOMnlxVGZFOTk5Wnp0UFp0VkowTE5tUFBrU1lVdW5pQTBfTVZtMkJPTzRGcXdtRGVYaW1YUGNseTNGUQ?oc=5) (Teletrece, 2020-03-24; no theme)
+- [Celulosa Arauco paga 3 mil pesos mensuales por patente municipal en Mariquina](https://news.google.com/rss/articles/CBMizgFBVV95cUxNWnRKZDQzdnc3bkdSN1gyWjhKWVhxbThYTlJ4ZnZ2aHJILU5hRWVnbHNpWi1EeU5icmNSZURiWHZHdkhIT29SX1RCSHdnVmVLZmd2UVNnNVRta2xnOWRKQ0x3Z1M3X2JhZDJuenMxN1AxdEJQMzZleEFnZnRFejNMdVBFUkhMTWpHUFI1bG1zbXYzdXFNMFpqTF9zaEh3NW00dGxxSy0wNjVuTjRhY0tPME1hVHQwSElEVVcwQV9UOXEzc3BIeDdXcXcweWhodw?oc=5) (Diario Futrono, 2022-09-11; no theme)
+
 ## 2026-10-31
 
 - Pulp production in 2024: 5.2 million tonnes, +9% on 2023 (a record).

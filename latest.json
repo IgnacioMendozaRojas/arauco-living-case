@@ -4,11 +4,11 @@
   "repo": "arauco-living-case",
   "title": "Arauco: a living business-history case",
   "question": "How does a business group sustain an extractive-export model, and how does that show up in the data and the news?",
-  "as_of": "2026-10-31",
+  "as_of": "2026-11-05",
   "frequency": "monthly",
-  "updated": "2026-10-31",
+  "updated": "2026-11-05",
   "source": "FAOSTAT; Google News; OpenAlex",
-  "headline": "Chile produced 5.2 million tonnes of chemical pulp in 2024 (3.4% of world output); in the last month, 12 headlines on Arauco, led by group, ownership and investment.",
+  "headline": "Chile produced 5.2 million tonnes of chemical pulp in 2024 (3.4% of world output); in the last month, 13 headlines on Arauco, led by group, ownership and investment.",
   "metrics": [
     {
       "id": "pulp_production",
@@ -33,10 +33,10 @@
     {
       "id": "headlines_month",
       "label": "Headlines in the last 31 days",
-      "value": 12,
+      "value": 13,
       "unit": "headlines",
-      "period": "2026-10-31"
+      "period": "2026-11-05"
     }
   ],
-  "new_headlines": 160
+  "new_headlines": 46
 }
